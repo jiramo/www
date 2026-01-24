@@ -1,75 +1,67 @@
-type Variant = "default" | "ghost" | "primary";
-type Size = "sm" | "md" | "lg";
+import style from "../styles/button.module.css";
+import clsx from "clsx";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 
-type CommonProps = {
-  variant?: Variant;
-  size?: Size;
+type ButtonVariant = "primary" | "secondary" | "outline";
+type ButtonSize = "sm" | "md" | "lg";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  children?: ReactNode;
   className?: string;
-  children: React.ReactNode;
-};
+}
 
-type ButtonProps = CommonProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    href?: never;
+export default function Button({
+  variant = "primary",
+  size = "md",
+  children,
+  className,
+  ...props
+}: ButtonProps) {
+  const baseVariantClasses: Record<ButtonVariant, string> = {
+    primary:
+      "bg-orange-500 text-black border border-orange-500 hover:bg-black hover:text-white hover:border-white/20",
+    secondary:
+      "bg-white text-black border border-white hover:bg-black hover:text-white hover:border-white",
+    outline:
+      "bg-[#1f1d1c] text-white border border-[#1f1d1c] hover:bg-white hover:text-black hover:border-black",
   };
 
-type LinkProps = CommonProps &
-  React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-    href: string;
+  const sizeClasses: Record<ButtonSize, string> = {
+    sm: "px-3 h-6.25 text-sm",
+    md: "px-4 py-1 text-md",
+    lg: "px-6 py-2 text-lg",
   };
 
-export type ButtonComponentProps = ButtonProps | LinkProps;
+  const patternStyleMap: Record<ButtonVariant, string> = {
+    primary: style.whiteStripes,
+    secondary: style.whiteStripes,
+    outline: style.blackStripes,
+  };
 
-const baseStyles =
-  "inline-flex items-center justify-center rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2";
-
-const variantStyles: Record<Variant, string> = {
-  default: "bg-black text-white hover:bg-black/90",
-  ghost: "hover:bg-[#F3F3F3]",
-  primary: "bg-[#E9A97B] text-black hover:bg-[#FB944A]",
-};
-
-const sizeStyles: Record<Size, string> = {
-  sm: "px-2.5 py-1 text-sm",
-  md: "px-3.5 py-1.5 text-sm",
-  lg: "px-5 py-2 text-base",
-};
-
-export function Button(props: ButtonComponentProps) {
-  const {
-    variant = "ghost",
-    size = "md",
-    className = "",
-    children,
-    ...rest
-  } = props;
-
-  const styles = [
-    baseStyles,
-    variantStyles[variant],
-    sizeStyles[size],
-    className,
-  ].join(" ");
-
-  // Link
-  if ("href" in props) {
-    return (
-      <a
-        className={styles}
-        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-      >
-        {children}
-      </a>
-    );
-  }
-
-  // Button
   return (
     <button
-      className={styles}
-      {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+      className={clsx(
+        "group relative overflow-hidden cursor-pointer rounded-md transition-colors duration-300",
+        baseVariantClasses[variant],
+        sizeClasses[size],
+        className
+      )}
+      {...props}
     >
-      {children}
+      <span className="relative z-10">{children}</span>
+
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-15">
+        
+        <div
+          className={clsx(
+            style.patternLayer,
+            style.animate,
+            patternStyleMap[variant]
+          )}
+        />
+      </div>
     </button>
   );
 }
