@@ -1,22 +1,16 @@
 import Image from "next/image";
 import Button from "./components/button";
-import Cookie from "./components/cookie";
-import Nav from "./components/nav";
-import Footer from "./components/footer";
 import { AnnouncementBadge } from "./components/badge";
 import Card from "./components/card";
 
 export default function Home() {
   return (
     <>
-      <Cookie />
-      <Nav />
-
       <div className="fixed inset-0 -z-10 h-full w-full bg-white dark:bg-[#0a0a0a]">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
       </div>
 
-      <main className="flex flex-col items-center justify-center pt-24 pb-10 gap-24 overflow-hidden">
+      <main className="flex flex-col items-center justify-center pt-24 pb-10 gap-24">
         <section className="text-center max-w-5xl flex flex-col items-center gap-8 px-6 relative">
           <AnnouncementBadge href="/blog/v2" variant="brand">
             v2.0 Early Access
@@ -363,8 +357,6 @@ export default function Home() {
             Get Started for Free
           </Button>
         </section>
-
-        <Footer />
       </main>
     </>
   );
