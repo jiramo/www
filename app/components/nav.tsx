@@ -2,59 +2,78 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Button from "./button";
 
-const NAV_ITEMS = [
-  { label: "Product", href: "/product", trigger: true },
-  { label: "Solutions", href: "/solutions", trigger: true },
+// --- CONFIGURAZIONE ---
+const NAV_CONFIG = [
+  {
+    label: "Product",
+    href: "/product",
+    menuWidth: "520px",
+    subMenu: [
+      { title: "Integrations", desc: "Connect tools", icon: "plug", href: "/integrations" },
+      { title: "Analytics", desc: "Data insights", icon: "chart", href: "/analytics" },
+      { title: "Security", desc: "Firewall protection", icon: "shield", href: "/security" },
+      { title: "API SDK", desc: "Developer tools", icon: "code", href: "/api" },
+    ]
+  },
+  { label: "Download", href: "/download" },
   { label: "Pricing", href: "/pricing" },
-];
-
-const PRODUCT_SUBMENU = [
-  { title: "Integrations", desc: "Connect tools", icon: "plug", href: "/integrations" },
-  { title: "Analytics", desc: "Data insights", icon: "chart", href: "/analytics" },
-  { title: "Security", desc: "Firewall protection", icon: "shield", href: "/security" },
-  { title: "API SDK", desc: "Developer tools", icon: "code", href: "/api" },
-];
-
-const SOLUTIONS_SUBMENU = [
-  { title: "Startups", desc: "Growth kit", icon: "rocket", href: "/sol/startups" },
-  { title: "Enterprise", desc: "Compliance", icon: "building", href: "/sol/enterprise" },
-  { title: "Finance", desc: "Global payments", icon: "bank", href: "/sol/finance" },
-  { title: "E-commerce", desc: "Shopify sync", icon: "cart", href: "/sol/ecom" },
-  { title: "Education", desc: "LMS tools", icon: "book", href: "/sol/edu" },
-  { title: "Healthcare", desc: "HIPAA ready", icon: "heart", href: "/sol/health" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [contentHeight, setContentHeight] = useState(0);
   
+  // Dimensioni
+  const [menuHeight, setMenuHeight] = useState(0);
+  const [navBaseWidth, setNavBaseWidth] = useState(500); 
+
   const searchInputRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const navLinksRef = useRef<HTMLDivElement>(null); // Misuriamo solo i link
+  const navButtonRef = useRef<HTMLDivElement>(null); // Misuriamo il bottone
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const activeItems = activeMenu === "Product" ? PRODUCT_SUBMENU : (activeMenu === "Solutions" ? SOLUTIONS_SUBMENU : null);
-  const isMenuOpen = activeItems !== null && !isSearchOpen;
+  const activeItemConfig = useMemo(() => 
+    NAV_CONFIG.find(item => item.label === activeMenu), 
+  [activeMenu]);
 
+  const hasSubMenu = !!activeItemConfig?.subMenu;
+  const isMenuOpen = hasSubMenu && !isSearchOpen;
+
+  // 1. CALCOLO LARGHEZZA COMBINATA (Links + Button + Spazio Logo)
+  useEffect(() => {
+    if (navLinksRef.current && navButtonRef.current) {
+        const linksWidth = navLinksRef.current.offsetWidth;
+        const btnWidth = navButtonRef.current.offsetWidth;
+        
+        // Logica somma: 
+        // 56px (Logo) + Links + Button + 20px (Gap) + 32px (Padding/Buffer Sicurezza Bordi)
+        const totalWidth = 56 + linksWidth + btnWidth + 20 + 32;
+        
+        setNavBaseWidth(totalWidth);
+    }
+  }, [NAV_CONFIG]); 
+
+  // 2. Calcolo Altezza Menu
   useEffect(() => {
     if (isMenuOpen && contentRef.current) {
-        setContentHeight(contentRef.current.scrollHeight);
+        setMenuHeight(contentRef.current.scrollHeight);
     } else {
-        setContentHeight(0);
+        setMenuHeight(0);
     }
   }, [activeMenu, isMenuOpen]);
 
+  // 3. Focus Search
   useEffect(() => {
-    if (isSearchOpen && searchInputRef.current) {
-      setTimeout(() => searchInputRef.current?.focus(), 150);
-    }
+    if (isSearchOpen) setTimeout(() => searchInputRef.current?.focus(), 150);
   }, [isSearchOpen]);
 
+  // 4. Reset ESC
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -66,16 +85,14 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const handleMouseEnter = (menu: string) => {
+  const handleMouseEnter = (menuLabel: string) => {
     if (isSearchOpen) return;
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setActiveMenu(menu);
+    setActiveMenu(menuLabel);
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setActiveMenu(null);
-    }, 150);
+    timeoutRef.current = setTimeout(() => setActiveMenu(null), 150);
   };
 
   const glassPanelClass = `
@@ -84,17 +101,21 @@ export default function Navbar() {
     shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5),0_0_20px_rgba(0,0,0,0.2)]
   `;
 
+  const currentWidth = isSearchOpen 
+    ? "56px" 
+    : isMenuOpen 
+        ? activeItemConfig?.menuWidth || "520px" 
+        : `${navBaseWidth}px`;
+
   return (
     <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 flex items-end gap-3 isolate font-sans antialiased">
       
       <nav 
         onMouseLeave={handleMouseLeave}
-        onMouseEnter={() => {
-            if (timeoutRef.current && !isSearchOpen) clearTimeout(timeoutRef.current);
-        }}
+        onMouseEnter={() => { if (timeoutRef.current && !isSearchOpen) clearTimeout(timeoutRef.current); }}
         style={{
-            height: isMenuOpen ? `${contentHeight + 56 + 16}px` : "56px",
-            width: isSearchOpen ? "56px" : isMenuOpen ? "520px" : "420px",
+            height: isMenuOpen ? `${menuHeight + 56 + 16}px` : "56px",
+            width: currentWidth,
         }}
         className={`
           relative flex flex-col-reverse overflow-hidden
@@ -103,36 +124,42 @@ export default function Navbar() {
         `}
       >
         
-        <div className="relative z-20 flex items-center h-14 w-full shrink-0">
+        {/* Header Navbar */}
+        <div className="relative z-20 flex items-center h-14 w-full shrink-0 pr-2">
              
+             {/* LOGO (Left) */}
              <Link
                 href="/"
                 onClick={() => { setIsSearchOpen(false); setActiveMenu(null); }}
                 className="group w-14 h-14 shrink-0 flex items-center justify-center transition-all z-10"
              >
-                <div className="relative h-10 w-10 flex items-center justify-center rounded-full bg-linear-to-br from-white/10 to-white/5 hover:from-white/15 border border-white/5 shadow-inner transition-all">
-                    <div className="relative h-5 w-5 opacity-80 group-hover:opacity-100 transition-opacity">
+                <div className="relative h-10 w-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 border border-white/5 transition-all">
+                    <div className="relative h-5 w-5 opacity-80 group-hover:opacity-100">
                         <Image src="/logo.svg" fill alt="Logo" className="object-contain" />
                     </div>
                 </div>
              </Link>
 
+             {/* Main Content Wrapper (Links + Button) */}
              <div className={`
-                flex items-center flex-1 w-full pr-2 h-full
+                flex items-center flex-1 h-full w-full
                 transition-all duration-300 ease-out
                 ${isSearchOpen ? "opacity-0 -translate-x-4 pointer-events-none delay-0" : "opacity-100 translate-x-0 delay-100"}
              `}>
-                 <div className="flex items-center gap-1 mr-auto pl-1">
-                     {NAV_ITEMS.map((item) => {
+                 
+                 {/* LINKS GROUP (Misurato con ref) */}
+                 <div ref={navLinksRef} className="flex items-center gap-1 pl-1">
+                     {NAV_CONFIG.map((item) => {
                         const isActive = item.href === pathname;
                         const isTrigger = activeMenu === item.label;
+                        
                         return (
                             <Link
                                 key={item.label}
                                 href={item.href}
-                                onMouseEnter={() => item.trigger && handleMouseEnter(item.label)}
+                                onMouseEnter={() => item.subMenu && handleMouseEnter(item.label)}
                                 className={`
-                                    relative px-3.5 py-1.5 text-[13px] font-medium transition-all duration-300 rounded-full tracking-wide
+                                    relative px-3.5 py-1.5 text-[13px] font-medium transition-all duration-300 rounded-full tracking-wide whitespace-nowrap
                                     ${isActive || isTrigger 
                                         ? "text-white bg-white/10 shadow-[inset_0_-2px_0_0_rgba(255,255,255,0.1)]" 
                                         : "text-neutral-400 hover:text-white hover:bg-white/5"
@@ -145,11 +172,15 @@ export default function Navbar() {
                      })}
                  </div>
 
-                 <div className="shrink-0 ml-auto">
+                 {/* BUTTON GROUP (Right aligned) 
+                    - ml-auto: Spinge questo div tutto a destra
+                    - pl-2: Piccola separazione dai link
+                 */}
+                 <div ref={navButtonRef} className="shrink-0 ml-auto pl-2">
                     <Button 
                         variant="primary" 
                         size="sm" 
-                        className="rounded-full h-9! text-[11px]! uppercase tracking-wider font-bold px-4"
+                        className="rounded-full h-9! text-[11px]! uppercase tracking-wider font-bold px-5 whitespace-nowrap"
                     >
                         Access
                     </Button>
@@ -157,6 +188,7 @@ export default function Navbar() {
              </div>
         </div>
 
+        {/* Submenu Panel */}
         <div 
             className={`
                 w-full relative px-2 transition-opacity duration-300
@@ -167,12 +199,13 @@ export default function Navbar() {
                 <div key={activeMenu} className="animate-in fade-in slide-in-from-bottom-3 duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
                     <div className="px-3 mb-3 flex justify-between items-end">
                         <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
-                             {activeMenu === "Product" ? "Product Suite" : "Solutions"}
+                             {activeMenu} Suite
                         </span>
-                        <div className="h-px w-24 bg-linear-to-r from-transparent to-white/10"></div>
+                        <div className="h-px flex-1 ml-4 bg-linear-to-r from-transparent via-white/10 to-transparent"></div>
                     </div>
+                    
                     <div className="grid grid-cols-2 gap-2">
-                        {activeItems?.map((item, idx) => (
+                        {activeItemConfig?.subMenu?.map((item, idx) => (
                              <Link 
                                 key={item.title} 
                                 href={item.href} 
@@ -197,6 +230,7 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Search Bar */}
       <div 
         onClick={() => !isSearchOpen && setIsSearchOpen(true)}
         style={{ width: isSearchOpen ? "320px" : "56px" }}
@@ -246,17 +280,13 @@ export default function Navbar() {
 
 const IconByName = ({ name }: { name: string }) => {
     const p = { width: "16", height: "16", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
-    switch(name) {
-        case "plug": return <svg viewBox="0 0 24 24" {...p}><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg>;
-        case "chart": return <svg viewBox="0 0 24 24" {...p}><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>;
-        case "shield": return <svg viewBox="0 0 24 24" {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>;
-        case "code": return <svg viewBox="0 0 24 24" {...p}><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>;
-        case "rocket": return <svg viewBox="0 0 24 24" {...p}><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>;
-        case "building": return <svg viewBox="0 0 24 24" {...p}><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></svg>;
-        case "bank": return <svg viewBox="0 0 24 24" {...p}><path d="M3 21h18"/><path d="M5 21v-7"/><path d="M19 21v-7"/><path d="M2 10h20"/><path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7 7 7 0 0 0-7 7H3a9 9 0 0 1 9-9z"/></svg>;
-        case "cart": return <svg viewBox="0 0 24 24" {...p}><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>;
-        case "book": return <svg viewBox="0 0 24 24" {...p}><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>;
-        case "heart": return <svg viewBox="0 0 24 24" {...p}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>;
-        default: return null;
-    }
+    const icons: Record<string, React.JSX.Element> = {
+        plug: <svg viewBox="0 0 24 24" {...p}><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg>,
+        chart: <svg viewBox="0 0 24 24" {...p}><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>,
+        shield: <svg viewBox="0 0 24 24" {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+        code: <svg viewBox="0 0 24 24" {...p}><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
+        rocket: <svg viewBox="0 0 24 24" {...p}><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>,
+        building: <svg viewBox="0 0 24 24" {...p}><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></svg>,
+    };
+    return icons[name] || null;
 }
