@@ -6,7 +6,6 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Button from "./button";
 
-// --- CONFIGURAZIONE ---
 const NAV_CONFIG = [
   {
     label: "Product",
@@ -21,6 +20,15 @@ const NAV_CONFIG = [
   },
   { label: "Download", href: "/download" },
   { label: "Pricing", href: "/pricing" },
+  {
+  label: "About",
+  href: "/about",
+  menuWidth: "520px",
+  subMenu: [
+    { title: "Team", desc: "Who build your software", icon: "team", href: "/team" },
+    { title: "Brand", icon: "brand", href: "/brand" },
+  ]
+},
 ];
 
 export default function Navbar() {
@@ -28,14 +36,13 @@ export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   
-  // Dimensioni
   const [menuHeight, setMenuHeight] = useState(0);
   const [navBaseWidth, setNavBaseWidth] = useState(500); 
 
   const searchInputRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const navLinksRef = useRef<HTMLDivElement>(null); // Misuriamo solo i link
-  const navButtonRef = useRef<HTMLDivElement>(null); // Misuriamo il bottone
+  const navLinksRef = useRef<HTMLDivElement>(null);
+  const navButtonRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const activeItemConfig = useMemo(() => 
@@ -45,21 +52,17 @@ export default function Navbar() {
   const hasSubMenu = !!activeItemConfig?.subMenu;
   const isMenuOpen = hasSubMenu && !isSearchOpen;
 
-  // 1. CALCOLO LARGHEZZA COMBINATA (Links + Button + Spazio Logo)
   useEffect(() => {
     if (navLinksRef.current && navButtonRef.current) {
         const linksWidth = navLinksRef.current.offsetWidth;
         const btnWidth = navButtonRef.current.offsetWidth;
         
-        // Logica somma: 
-        // 56px (Logo) + Links + Button + 20px (Gap) + 32px (Padding/Buffer Sicurezza Bordi)
         const totalWidth = 56 + linksWidth + btnWidth + 20 + 32;
         
         setNavBaseWidth(totalWidth);
     }
   }, [NAV_CONFIG]); 
 
-  // 2. Calcolo Altezza Menu
   useEffect(() => {
     if (isMenuOpen && contentRef.current) {
         setMenuHeight(contentRef.current.scrollHeight);
@@ -68,12 +71,10 @@ export default function Navbar() {
     }
   }, [activeMenu, isMenuOpen]);
 
-  // 3. Focus Search
   useEffect(() => {
     if (isSearchOpen) setTimeout(() => searchInputRef.current?.focus(), 150);
   }, [isSearchOpen]);
 
-  // 4. Reset ESC
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -124,10 +125,8 @@ export default function Navbar() {
         `}
       >
         
-        {/* Header Navbar */}
         <div className="relative z-20 flex items-center h-14 w-full shrink-0 pr-2">
              
-             {/* LOGO (Left) */}
              <Link
                 href="/"
                 onClick={() => { setIsSearchOpen(false); setActiveMenu(null); }}
@@ -140,14 +139,12 @@ export default function Navbar() {
                 </div>
              </Link>
 
-             {/* Main Content Wrapper (Links + Button) */}
              <div className={`
                 flex items-center flex-1 h-full w-full
                 transition-all duration-300 ease-out
                 ${isSearchOpen ? "opacity-0 -translate-x-4 pointer-events-none delay-0" : "opacity-100 translate-x-0 delay-100"}
              `}>
                  
-                 {/* LINKS GROUP (Misurato con ref) */}
                  <div ref={navLinksRef} className="flex items-center gap-1 pl-1">
                      {NAV_CONFIG.map((item) => {
                         const isActive = item.href === pathname;
@@ -172,10 +169,6 @@ export default function Navbar() {
                      })}
                  </div>
 
-                 {/* BUTTON GROUP (Right aligned) 
-                    - ml-auto: Spinge questo div tutto a destra
-                    - pl-2: Piccola separazione dai link
-                 */}
                  <div ref={navButtonRef} className="shrink-0 ml-auto pl-2">
                     <Button 
                         variant="primary" 
@@ -188,7 +181,6 @@ export default function Navbar() {
              </div>
         </div>
 
-        {/* Submenu Panel */}
         <div 
             className={`
                 w-full relative px-2 transition-opacity duration-300
@@ -230,7 +222,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Search Bar */}
       <div 
         onClick={() => !isSearchOpen && setIsSearchOpen(true)}
         style={{ width: isSearchOpen ? "320px" : "56px" }}
@@ -287,6 +278,9 @@ const IconByName = ({ name }: { name: string }) => {
         code: <svg viewBox="0 0 24 24" {...p}><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
         rocket: <svg viewBox="0 0 24 24" {...p}><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>,
         building: <svg viewBox="0 0 24 24" {...p}><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></svg>,
+        team: <svg viewBox="0 0 24 24" {...p}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+        brand: <svg viewBox="0 0 24 24" {...p}><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" style={{display:'none'}}/><path d="M12 2l-9 19h18L12 2z" style={{display:'none'}}/><path d="M8.3 10a.7.7 0 0 1-.626-1.079l1.7-2.798a.7.7 0 0 1 1.252 0l1.7 2.798A.7.7 0 0 1 11.7 10Z"/><rect x="14" y="14" width="7" height="7" rx="1"/><circle cx="6" cy="18" r="3"/></svg>,
+        about: <svg viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>,
     };
     return icons[name] || null;
 }
