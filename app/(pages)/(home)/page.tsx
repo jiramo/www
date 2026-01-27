@@ -3,13 +3,12 @@ import Button from "@/app/components/button";
 import Card from "@/app/components/card";
 import Image from "next/image";
 import CardsGrid from "./cardsGrid";
+import Background from "@/app/components/background";
 
 export default function Home() {
   return (
     <>
-      <div className="fixed inset-0 -z-10 h-full w-full bg-white dark:bg-[#0a0a0a]">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
-      </div>
+      <Background />
 
       <main className="flex flex-col items-center justify-center pt-24 pb-10 gap-24">
         <section className="text-center max-w-5xl flex flex-col items-center gap-8 px-6 relative">

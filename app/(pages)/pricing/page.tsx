@@ -1,5 +1,6 @@
 "use client";
 
+import Background from "@/app/components/background";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -26,7 +27,8 @@ const TIERS: PricingTier[] = [
   {
     id: "self-hosted",
     name: "Self-Hosted",
-    description: "Perfect for developers and teams who want full control over their infrastructure.",
+    description:
+      "Perfect for developers and teams who want full control over their infrastructure.",
     price: { monthly: 0, yearly: 0 },
     features: [
       { text: "Self-hosted deployment", included: true },
@@ -45,7 +47,8 @@ const TIERS: PricingTier[] = [
   {
     id: "pro",
     name: "Pro",
-    description: "All features included, fully managed hosting, no maintenance required.",
+    description:
+      "All features included, fully managed hosting, no maintenance required.",
     price: { monthly: 12, yearly: 9 },
     features: [
       { text: "Managed hosting", included: true },
@@ -65,7 +68,8 @@ const TIERS: PricingTier[] = [
   {
     id: "enterprise",
     name: "Enterprise",
-    description: "Enterprise-grade solution with premium support and onboarding.",
+    description:
+      "Enterprise-grade solution with premium support and onboarding.",
     price: { monthly: "Custom", yearly: "Custom" },
     features: [
       { text: "All Pro features", included: true },
@@ -86,9 +90,7 @@ export default function PricingPage() {
 
   return (
     <section className="">
-      <div className="fixed inset-0 -z-10 h-full w-full bg-white dark:bg-[#0a0a0a]">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
-      </div>
+      <Background />
       
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-250 h-150 bg-white/5 rounded-[100%] blur-[120px] pointer-events-none opacity-20"></div>
 
