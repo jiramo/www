@@ -1,6 +1,4 @@
-import { AnnouncementBadge } from "@/app/components/badge";
 import Button from "@/app/components/button";
-import Card from "@/app/components/card";
 import Image from "next/image";
 import CardsGrid from "./cardsGrid";
 import Background from "@/app/components/background";
@@ -12,11 +10,8 @@ export default function Home() {
 
       <main className="flex flex-col items-center justify-center pt-24 pb-10 gap-24">
         <section className="text-center max-w-5xl flex flex-col items-center gap-8 px-6 relative">
-          <AnnouncementBadge href="/blog/v2" variant="brand">
-            v2.0 Early Access
-          </AnnouncementBadge>
 
-          <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[1.1] text-neutral-900 dark:text-white">
+          <h1 className="text-3xl sm:text-7xl font-bold tracking-tight leading-[1.1] text-neutral-900 dark:text-white">
             The Operating System for <br />
             <span className="relative whitespace-nowrap">
               <span className="absolute -inset-1 -rotate-1 bg-orange-500/10 dark:bg-orange-500/20 rounded-lg blur-sm"></span>
@@ -40,14 +35,11 @@ export default function Home() {
             >
               Clone Repo
             </Button>
-            <Button size="lg" variant="secondary" href="">
-              View Demo
-            </Button>
           </div>
         </section>
 
         <section className="w-full max-w-6xl px-6">
-          <div className="group relative rounded-xl bg-neutral-900 border border-neutral-800 shadow-2xl overflow-hidden ring-1 ring-white/10 transition-transform duration-500">
+          <div className="group relative rounded-[20px] bg-neutral-900 border border-neutral-800 shadow-2xl overflow-hidden ring-1 ring-white/10 transition-transform duration-500">
             <div className="flex items-center gap-2 border-b border-neutral-800 bg-neutral-900/50 px-4 py-3 backdrop-blur-md">
               <div className="flex gap-1.5">
                 <div className="h-3 w-3 rounded-full bg-red-500/20 border border-red-500/50" />
@@ -61,11 +53,13 @@ export default function Home() {
             <div className="relative aspect-16/10 bg-[#0A0A0A]">
               <Image
                 src="/ui.png"
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: '100%', height: 'auto' }}
                 alt="Dashboard UI"
-                fill
-                className="object-cover opacity-90"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-[#0A0A0A] via-transparent to-transparent opacity-60"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-[#0A0A0A] via-transparent to-transparent opacity-20"></div>
             </div>
           </div>
         </section>
