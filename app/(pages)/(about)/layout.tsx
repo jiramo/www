@@ -14,7 +14,6 @@ export default function AboutLayout({
       <Background />
 
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none"></div>
-      <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-250 h-150 bg-orange-600/10 rounded-full blur-[120px] pointer-events-none opacity-50"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-24 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
