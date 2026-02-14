@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
-import Button from "./button";
+import Button from "./button"; // Assicurati che questo path sia corretto o sostituisci con un tag <button> standard
 
 interface NavProps {
   label: string;
@@ -28,6 +28,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const [menuHeight, setMenuHeight] = useState(0);
   const [navBaseWidth, setNavBaseWidth] = useState(500);
@@ -46,16 +47,30 @@ export default function Navbar() {
   const hasSubMenu = !!activeItemConfig?.subMenu;
   const isMenuOpen = hasSubMenu && !isSearchOpen;
 
+  // Rilevamento Mobile per adattare la larghezza
   useEffect(() => {
-    if (navLinksRef.current && navButtonRef.current) {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    
+    // Check iniziale
+    handleResize();
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (navLinksRef.current) {
       const linksWidth = navLinksRef.current.offsetWidth;
-      const btnWidth = navButtonRef.current.offsetWidth;
-
-      const totalWidth = 56 + linksWidth + btnWidth + 20 + 32;
-
+      // Il bottone code potrebbe essere nascosto su mobile, quindi controlliamo se esiste
+      const btnWidth = navButtonRef.current ? navButtonRef.current.offsetWidth : 0;
+      
+      // Calcolo dinamico: Logo(56) + Links + Button + Spaziature varie
+      const totalWidth = 56 + linksWidth + btnWidth + (btnWidth > 0 ? 20 : 10) + 16;
       setNavBaseWidth(totalWidth);
     }
-  }, [NAV_CONFIG]);
+  }, [NAV_CONFIG, isMobile]); // Ricalcola se cambia la modalità mobile
 
   useEffect(() => {
     if (isMenuOpen && contentRef.current) {
@@ -81,13 +96,25 @@ export default function Navbar() {
   }, []);
 
   const handleMouseEnter = (menuLabel: string) => {
-    if (isSearchOpen) return;
+    if (isSearchOpen || isMobile) return; // Disabilita hover su mobile
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setActiveMenu(menuLabel);
   };
 
   const handleMouseLeave = () => {
+    if (isMobile) return;
     timeoutRef.current = setTimeout(() => setActiveMenu(null), 150);
+  };
+
+  const handleLinkClick = (menuLabel: string, hasSub: boolean) => {
+    if (isMobile && hasSub) {
+        // Su mobile, se c'è un sottomenu, il click lo apre/chiude invece di navigare subito
+        if (activeMenu === menuLabel) {
+            setActiveMenu(null);
+        } else {
+            setActiveMenu(menuLabel);
+        }
+    }
   };
 
   const glassPanelClass = `
@@ -96,14 +123,18 @@ export default function Navbar() {
     shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5),0_0_20px_rgba(0,0,0,0.2)]
   `;
 
-  const currentWidth = isSearchOpen
-    ? "56px"
-    : isMenuOpen
-      ? activeItemConfig?.menuWidth || "520px"
-      : `${navBaseWidth}px`;
+  // Logica larghezza: Su mobile usa width quasi piena, su desktop calcola i pixel
+  const getNavWidth = () => {
+    if (isSearchOpen) return isMobile ? "0px" : "56px"; // Su mobile nascondiamo la nav se c'è la ricerca
+    if (isMobile) return "calc(100vw - 32px)";
+    if (isMenuOpen) return activeItemConfig?.menuWidth || "520px";
+    return `${navBaseWidth}px`;
+  };
 
   return (
-    <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 flex items-end gap-3 isolate font-sans antialiased">
+    <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 flex items-end gap-2 sm:gap-3 isolate font-sans antialiased w-full max-w-[100vw] justify-center px-4 sm:px-0 pointer-events-none">
+      
+      {/* NAVBAR PRINCIPALE */}
       <nav
         onMouseLeave={handleMouseLeave}
         onMouseEnter={() => {
@@ -112,10 +143,12 @@ export default function Navbar() {
         }}
         style={{
           height: isMenuOpen ? `${menuHeight + 56 + 16}px` : "56px",
-          width: currentWidth,
+          width: getNavWidth(),
+          opacity: isSearchOpen && isMobile ? 0 : 1, // Fade out su mobile durante la ricerca
+          pointerEvents: isSearchOpen && isMobile ? 'none' : 'auto'
         }}
         className={`
-          relative flex flex-col-reverse overflow-hidden
+          relative flex flex-col-reverse overflow-hidden pointer-events-auto
           transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] origin-bottom will-change-[width,height] rounded-2xl
           ${glassPanelClass}
         `}
@@ -143,25 +176,33 @@ export default function Navbar() {
 
           <div
             className={`
-                flex items-center flex-1 h-full w-full
+                flex items-center flex-1 h-full w-full overflow-hidden
                 transition-all duration-300 ease-out
                 ${isSearchOpen ? "opacity-0 -translate-x-4 pointer-events-none delay-0" : "opacity-100 translate-x-0 delay-100"}
              `}
           >
-            <div ref={navLinksRef} className="flex items-center gap-1 pl-1">
+            {/* Scrollable container per i link su mobile */}
+            <div ref={navLinksRef} className="flex items-center gap-1 pl-1 overflow-x-auto scrollbar-hide no-scrollbar mask-gradient-right">
               {NAV_CONFIG.map((item) => {
                 const isActive = item.href === pathname;
                 const isTrigger = activeMenu === item.label;
+                const hasSub = !!item.subMenu;
 
                 return (
                   <Link
                     key={item.label}
-                    href={item.href}
+                    href={hasSub && isMobile ? '#' : item.href} // Su mobile, se ha menu, previeni navigazione immediata
+                    onClick={(e) => {
+                        if (hasSub && isMobile) {
+                            e.preventDefault();
+                            handleLinkClick(item.label, hasSub);
+                        }
+                    }}
                     onMouseEnter={() =>
                       item.subMenu && handleMouseEnter(item.label)
                     }
                     className={`
-                                    relative px-3.5 py-1.5 text-[13px] font-medium transition-all duration-300 rounded-full tracking-wide whitespace-nowrap
+                                    relative px-3 sm:px-3.5 py-1.5 text-[13px] font-medium transition-all duration-300 rounded-full tracking-wide whitespace-nowrap select-none
                                     ${
                                       isActive || isTrigger
                                         ? "text-white bg-white/10 shadow-[inset_0_-2px_0_0_rgba(255,255,255,0.1)]"
@@ -175,18 +216,21 @@ export default function Navbar() {
               })}
             </div>
 
-            <div ref={navButtonRef} className="shrink-0 ml-auto pl-2">
+            {/* Bottone CODE nascosto su schermi molto piccoli */}
+            <div ref={navButtonRef} className="shrink-0 ml-auto pl-2 hidden sm:block">
               <Button
                 variant="primary"
                 size="sm"
                 className="rounded-full h-9! text-[11px]! uppercase tracking-wider font-bold px-5 whitespace-nowrap"
+                href="https://github.com/jiramo/jiramo"
               >
-                Access
+                Code
               </Button>
             </div>
           </div>
         </div>
 
+        {/* CONTENT AREA DEL MENU */}
         <div
           className={`
                 w-full relative px-2 transition-opacity duration-300
@@ -205,7 +249,8 @@ export default function Navbar() {
                 <div className="h-px flex-1 ml-4 bg-linear-to-r from-transparent via-white/10 to-transparent"></div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              {/* Grid diventa 1 colonna su mobile molto stretto se necessario, o rimane 2 */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {activeItemConfig?.subMenu?.map((item, idx) => (
                   <Link
                     key={item.title}
@@ -235,11 +280,16 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* SEARCH BAR */}
       <div
         onClick={() => !isSearchOpen && setIsSearchOpen(true)}
-        style={{ width: isSearchOpen ? "320px" : "56px" }}
+        style={{ 
+            width: isSearchOpen 
+                ? (isMobile ? "calc(100vw - 32px)" : "320px") 
+                : "56px" 
+        }}
         className={`
-            relative flex items-center shrink-0
+            relative flex items-center shrink-0 pointer-events-auto
             h-14 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] rounded-2xl
             ${glassPanelClass}
             ${isSearchOpen ? "cursor-text pl-2 pr-2" : "hover:bg-white/5 cursor-pointer justify-center"}
@@ -276,7 +326,7 @@ export default function Navbar() {
             ref={searchInputRef}
             type="text"
             placeholder="Search..."
-            className="w-full bg-transparent text-[14px] text-white placeholder-neutral-500 focus:outline-none font-medium h-full pb-px"
+            className="w-full bg-transparent text-[14px] text-white placeholder-neutral-500 focus:outline-none font-medium h-full pb-px min-w-0" // min-w-0 evita overflow flex
             onClick={(e) => e.stopPropagation()}
           />
         </div>
@@ -287,7 +337,7 @@ export default function Navbar() {
              ${isSearchOpen ? "w-auto opacity-100 mr-1" : "w-0 opacity-0"}
           `}
         >
-          <span className="hidden sm:inline-flex items-center border border-white/10 rounded px-1.5 py-0.5 text-[10px] text-neutral-500 font-mono bg-white/5">
+          <span className="hidden md:inline-flex items-center border border-white/10 rounded px-1.5 py-0.5 text-[10px] text-neutral-500 font-mono bg-white/5">
             ESC
           </span>
           <button
@@ -381,11 +431,6 @@ const IconByName = ({ name }: { name: string }) => {
     ),
     brand: (
       <svg viewBox="0 0 24 24" {...p}>
-        <path
-          d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"
-          style={{ display: "none" }}
-        />
-        <path d="M12 2l-9 19h18L12 2z" style={{ display: "none" }} />
         <path d="M8.3 10a.7.7 0 0 1-.626-1.079l1.7-2.798a.7.7 0 0 1 1.252 0l1.7 2.798A.7.7 0 0 1 11.7 10Z" />
         <rect x="14" y="14" width="7" height="7" rx="1" />
         <circle cx="6" cy="18" r="3" />
