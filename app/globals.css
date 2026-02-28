@@ -5,6 +5,10 @@ body {
     color: var(--color-white);
 }
 
+
+/* apply "dark:" variants when the element or any of its parent elements has the attribute data-theme="dark" */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 .blackStripes {
   background-image: linear-gradient(
     45deg,

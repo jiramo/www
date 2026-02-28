@@ -1,6 +1,6 @@
 "use client";
 
-import { JSX, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const THEMES = ["light", "system", "dark"] as const;
 type Theme = (typeof THEMES)[number];
@@ -28,6 +28,7 @@ export default function ThemePill() {
         theme === "dark" || (theme === "system" && mediaQuery.matches);
       
       root.setAttribute("data-theme", isDark ? "dark" : "light");
+      root.style.colorScheme = isDark ? "dark" : "light"; 
     };
 
     applyTheme();
