@@ -12,10 +12,6 @@ export default function Home() {
 
       <main className="flex flex-col items-center justify-center pt-24 pb-10 gap-24">
         <section className="text-center max-w-5xl flex flex-col items-center gap-8 px-6 relative">
-          <AnnouncementBadge href="/blog/v2" variant="brand">
-            v2.0 Early Access
-          </AnnouncementBadge>
-
           <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[1.1] text-neutral-900 dark:text-white">
             The Operating System for <br />
             <span className="relative whitespace-nowrap">
@@ -47,32 +43,47 @@ export default function Home() {
         </section>
 
         <section className="w-full max-w-6xl px-6">
-          <div className="group relative rounded-xl bg-neutral-900 border border-neutral-800 shadow-2xl overflow-hidden ring-1 ring-white/10 transition-transform duration-500">
-            <div className="flex items-center gap-2 border-b border-neutral-800 bg-neutral-900/50 px-4 py-3 backdrop-blur-md">
+          <div
+            className="group relative rounded-xl transition-all duration-500 overflow-hidden shadow-2xl
+              bg-white border border-neutral-200 ring-1 ring-black/5 
+              dark:bg-neutral-900 dark:border-neutral-800 dark:ring-white/10"
+          >
+            <div
+              className="flex items-center gap-2 px-4 py-3 backdrop-blur-md border-b
+                bg-neutral-50/50 border-neutral-200
+                dark:bg-neutral-900/50 dark:border-neutral-800"
+            >
               <div className="flex gap-1.5">
-                <div className="h-3 w-3 rounded-full bg-red-500/20 border border-red-500/50" />
-                <div className="h-3 w-3 rounded-full bg-yellow-500/20 border border-yellow-500/50" />
-                <div className="h-3 w-3 rounded-full bg-green-500/20 border border-green-500/50" />
+                <div className="h-3 w-3 rounded-full bg-red-500/20 border border-red-500/50 dark:border-red-500/40" />
+                <div className="h-3 w-3 rounded-full bg-yellow-500/20 border border-yellow-500/50 dark:border-yellow-500/40" />
+                <div className="h-3 w-3 rounded-full bg-green-500/20 border border-green-500/50 dark:border-green-500/40" />
               </div>
-              <div className="mx-auto text-xs font-mono text-neutral-500">
+
+              <div className="mx-auto text-xs font-mono text-neutral-400 dark:text-neutral-500">
                 jiramo.dashboard.local
               </div>
             </div>
-            <div className="relative aspect-16/10 bg-[#0A0A0A]">
+
+            <div className="relative aspect-16/10 bg-neutral-50 dark:bg-[#0A0A0A]">
               <Image
                 src="/ui.png"
                 alt="Dashboard UI"
                 fill
-                className="object-cover opacity-90"
+                className="object-cover opacity-95 dark:opacity-90"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-[#0A0A0A] via-transparent to-transparent opacity-60"></div>
+
+              <div
+                className="absolute inset-0 
+                  bg-linear-to-t from-transparent via-transparent to-transparent opacity-60
+                  dark:from-[#0A0A0A] dark:via-transparent dark:to-transparent"
+              ></div>
             </div>
           </div>
         </section>
 
         <section className="max-w-6xl w-full px-6 flex flex-col gap-16">
           <div className="text-center space-y-4">
-            <h2 className="text-3xl md:text-5xl font-bold dark:text-white tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-bold dark:text-white text-neutral-900 tracking-tight">
               Full-stack project management
             </h2>
             <p className="text-neutral-500 text-lg">
@@ -85,7 +96,7 @@ export default function Home() {
 
         <section className="text-center py-20 px-6 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-75 h-75 bg-orange-500/20 blur-[120px] rounded-full pointer-events-none"></div>
-          <h2 className="text-4xl md:text-5xl font-bold leading-15 mb-6 dark:text-white relative z-10">
+          <h2 className="text-4xl md:text-5xl font-bold leading-15 mb-6 dark:text-white text-neutral-900 relative z-10">
             Stop chasing clients. <br />
             Start building.
           </h2>

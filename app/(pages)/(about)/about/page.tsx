@@ -2,15 +2,17 @@ export default function AboutPage() {
   return (
     <div className="max-w-3xl pt-8">
         
-        <h1 className="text-4xl md:text-5xl font-medium text-white tracking-tight mb-8 leading-[1.1]">
+        <h1 className="text-4xl md:text-5xl font-medium text-neutral-900 dark:text-white tracking-tight mb-8 leading-[1.1] transition-colors duration-300">
             Code that protects itself. <br />
-            <span className="text-neutral-500">Automated governance for developers.</span>
+            <span className="text-neutral-500 dark:text-neutral-400 transition-colors duration-300">
+                Automated governance for developers.
+            </span>
         </h1>
         
-        <div className="space-y-8 text-lg text-neutral-400 font-light leading-relaxed">
+        <div className="space-y-8 text-lg text-neutral-600 dark:text-neutral-400 font-light leading-relaxed transition-colors duration-300">
             <p>
                 Jiramo began with a harsh truth known to every agency: 
-                <span className="text-white"> managing recurring revenue is a distraction.</span> Manual renewal tracking and payment chasing drain the creative flow.
+                <span className="text-neutral-900 dark:text-white font-medium transition-colors duration-300"> managing recurring revenue is a distraction.</span> Manual renewal tracking and payment chasing drain the creative flow.
             </p>
             <p>
                 We built the solution. An open-source ecosystem that connects your code to your business logic. 
@@ -19,9 +21,11 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-20 mb-20">
-            <h3 className="text-xs font-mono text-orange-500 uppercase tracking-widest mb-8"> The Mechanism </h3>
+            <h3 className="text-xs font-mono text-orange-600 dark:text-orange-500 uppercase tracking-widest mb-8 transition-colors duration-300"> 
+                The Mechanism 
+            </h3>
             
-            <div className="grid grid-cols-1 gap-12 border-l border-white/10 pl-8">
+            <div className="grid grid-cols-1 gap-12 border-l border-neutral-200 dark:border-white/10 pl-8 transition-colors duration-300">
                 
                 <FeatureBlock 
                     title="Remote Enforcement" 
@@ -41,7 +45,6 @@ export default function AboutPage() {
             </div>
         </div>
 
-        
     </div>
   );
 }
@@ -49,10 +52,10 @@ export default function AboutPage() {
 function FeatureBlock({ title, description }: { title: string, description: string }) {
     return (
         <div>
-            <h4 className="text-xl text-white font-medium mb-3 transition-colors duration-300">
+            <h4 className="text-xl text-neutral-900 dark:text-white font-medium mb-3 transition-colors duration-300">
                 {title}
             </h4>
-            <p className="text-neutral-500 text-sm leading-6 max-w-lg">
+            <p className="text-neutral-600 dark:text-neutral-500 text-sm leading-6 max-w-lg transition-colors duration-300">
                 {description}
             </p>
         </div>
