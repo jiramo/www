@@ -1,6 +1,8 @@
 "use client";
 
 import Background from "@/app/components/background";
+import { Check } from "@/app/components/icons/check";
+import { Minus } from "@/app/components/icons/minus";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -91,7 +93,7 @@ export default function PricingPage() {
   return (
     <section className="">
       <Background />
-      
+
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-250 h-150 bg-white/5 rounded-[100%] blur-[120px] pointer-events-none opacity-20"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-24">
@@ -196,10 +198,17 @@ export default function PricingPage() {
                       key={idx}
                       className={`flex items-start gap-3 text-sm ${feature.included ? "text-neutral-300" : "text-neutral-600 line-through decoration-neutral-700"}`}
                     >
-                      <Icon
-                        name={feature.included ? "check" : "minus"}
-                        className={`w-5 h-5 shrink-0 ${feature.included ? (tier.popular ? "text-orange-400" : "text-white") : "text-neutral-700"}`}
-                      />
+                      {feature.included ? (
+                        <Check
+                          size={20}
+                          className={`shrink-0 ${tier.popular ? "text-orange-400" : "text-white"}`}
+                        />
+                      ) : (
+                        <Minus
+                          size={20}
+                          className="shrink-0 text-neutral-700"
+                        />
+                      )}
                       <span>{feature.text}</span>
                     </li>
                   ))}
@@ -260,32 +269,3 @@ export default function PricingPage() {
     </section>
   );
 }
-
-const Icon = ({ name, className }: { name: string; className?: string }) => {
-  const props = {
-    className,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2",
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-  };
-
-  switch (name) {
-    case "check":
-      return (
-        <svg {...props}>
-          <polyline points="20 6 9 17 4 12" />
-        </svg>
-      );
-    case "minus":
-      return (
-        <svg {...props}>
-          <line x1="5" y1="12" x2="19" y2="12" />
-        </svg>
-      );
-    default:
-      return null;
-  }
-};

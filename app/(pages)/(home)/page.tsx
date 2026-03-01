@@ -1,9 +1,9 @@
 import { AnnouncementBadge } from "@/app/components/badge";
 import Button from "@/app/components/button";
-import Card from "@/app/components/card";
 import Image from "next/image";
 import CardsGrid from "./cardsGrid";
 import Background from "@/app/components/background";
+import { Github } from "@/app/components/icons/github";
 
 export default function Home() {
   return (
@@ -36,7 +36,7 @@ export default function Home() {
               size="lg"
               shortcut="C"
               href="https://github.com/jiramo/jiramo"
-              leftIcon={<GitIcon className="w-5 h-5" />}
+              leftIcon={<Github className="w-5 h-5" />}
             >
               Clone Repo
             </Button>
@@ -101,24 +101,3 @@ export default function Home() {
     </>
   );
 }
-
-
-const GitIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <line x1="6" x2="6" y1="3" y2="15"></line>
-    <circle cx="18" cy="6" r="3"></circle>
-    <circle cx="6" cy="18" r="3"></circle>
-    <path d="M18 9a9 9 0 0 1-9 9"></path>
-  </svg>
-);
-

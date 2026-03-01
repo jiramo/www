@@ -1,4 +1,10 @@
 import Card from "@/app/components/card";
+import { Bug } from "@/app/components/icons/bug";
+import { Calendar } from "@/app/components/icons/calendar";
+import { Code } from "@/app/components/icons/code";
+import { Github } from "@/app/components/icons/github";
+import { Shield } from "@/app/components/icons/shield";
+import { Users } from "@/app/components/icons/user";
 
 export default function CardsGrid() {
     return (
@@ -7,7 +13,7 @@ export default function CardsGrid() {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-500/10 rounded-lg text-blue-500">
-                    <CodeIcon />
+                    <Code />
                   </div>
                   <h3 className="text-xl font-bold dark:text-white">
                     One-line SDK Integration
@@ -53,7 +59,7 @@ export default function CardsGrid() {
             <Card className="md:col-span-2 md:row-span-2 flex flex-col">
               <div className="mb-4 flex items-center gap-3">
                 <div className="p-2 bg-neutral-800 rounded-lg text-white">
-                  <GitIcon className="w-5 h-5" />
+                  <Github className="w-5 h-5" />
                 </div>
                 <h3 className="text-lg font-bold dark:text-white">Git Sync</h3>
               </div>
@@ -111,7 +117,7 @@ export default function CardsGrid() {
               <div className="flex flex-col gap-3 h-full justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-2 text-purple-500">
-                    <BugIcon />
+                    <Bug />
                     <span className="text-xs font-bold uppercase tracking-wider">
                       Issue Reporting
                     </span>
@@ -148,7 +154,7 @@ export default function CardsGrid() {
               <div className="flex flex-col h-full justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-2 text-orange-500">
-                    <UsersIcon />
+                    <Users />
                     <span className="text-xs font-bold uppercase tracking-wider">
                       Team
                     </span>
@@ -185,7 +191,7 @@ export default function CardsGrid() {
             <Card className="md:col-span-3">
               <div className="flex flex-col gap-2 relative z-10">
                 <div className="flex items-center gap-2 text-green-500 mb-1">
-                  <CalendarIcon />
+                  <Calendar />
                   <span className="text-xs font-bold uppercase tracking-wider">
                     Scheduling
                   </span>
@@ -232,7 +238,7 @@ export default function CardsGrid() {
               >
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-red-500 mb-1 transition-colors duration-300">
-                    <ShieldIcon />
+                    <Shield />
                     <span className="text-xs font-bold uppercase tracking-wider">
                       <span className="peer-checked:hidden">Protection</span>
                     </span>
@@ -265,112 +271,3 @@ export default function CardsGrid() {
           </div>
     )
 }
-
-const CodeIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="16 18 22 12 16 6"></polyline>
-    <polyline points="8 6 2 12 8 18"></polyline>
-  </svg>
-);
-
-const BugIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="m8 2 1.88 1.88" />
-    <path d="M14.12 3.88 16 2" />
-    <path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1" />
-    <path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6" />
-    <path d="M12 20v-9" />
-    <path d="M6.53 9C4.6 8.8 3 7.1 3 5" />
-    <path d="M6 13H2" />
-    <path d="M3 21c0-2.1 1.7-3.9 3.8-4" />
-    <path d="M20.97 5c0 2.1-1.6 3.8-3.5 4" />
-    <path d="M22 13h-4" />
-    <path d="M17.2 17c2.1.1 3.8 1.9 3.8 4" />
-  </svg>
-);
-const UsersIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-    <circle cx="9" cy="7" r="4" />
-    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-  </svg>
-);
-const CalendarIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-    <line x1="16" x2="16" y1="2" y2="6" />
-    <line x1="8" x2="8" y1="2" y2="6" />
-    <line x1="3" x2="21" y1="10" y2="10" />
-  </svg>
-);
-const ShieldIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-  </svg>
-);
-
-const GitIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <line x1="6" x2="6" y1="3" y2="15"></line>
-    <circle cx="18" cy="6" r="3"></circle>
-    <circle cx="6" cy="18" r="3"></circle>
-    <path d="M18 9a9 9 0 0 1-9 9"></path>
-  </svg>
-);

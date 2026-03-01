@@ -1,5 +1,6 @@
 "use client";
 
+import { Download } from "@/app/components/icons/download";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -40,7 +41,7 @@ function DownloadRow({ format, label, file }: any) {
                 <span className="text-xs text-neutral-500">{label}</span>
             </div>
             <div className="w-8 h-8 flex items-center justify-center text-neutral-500 group-hover:text-white transition-colors">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                <Download height={16} width={16} className="stroke-neutral-500 group-hover:stroke-white transition-colors"/>
             </div>
         </a>
     )
