@@ -5,13 +5,27 @@ import Link from "next/link";
 import Button from "./button";
 import { Cookie } from "./icons/cookie";
 
+const COOKIE_NAME = "cookie_consent";
+
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 500);
-    return () => clearTimeout(timer);
+    const consent = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith(`${COOKIE_NAME}=`));
+
+    if (!consent) {
+      setIsVisible(true);
+    }
   }, []);
+
+  const setConsent = (value: "accepted" | "declined") => {
+    document.cookie = `${COOKIE_NAME}=${value}; path=/; max-age=${
+      60 * 60 * 24 * 365
+    }`;
+    setIsVisible(false);
+  };
 
   if (!isVisible) return null;
 
