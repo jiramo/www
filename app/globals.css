@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
 body {
-    background-color: var(--color-black);
-    color: var(--color-white);
+  background-color: var(--color-black);
+  color: var(--color-white);
 }
-
 
 /* apply "dark:" variants when the element or any of its parent elements has the attribute data-theme="dark" */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
@@ -21,4 +20,8 @@ body {
     #cfcfcf 100%
   );
   background-size: 10px 10px;
+}
+
+.glass {
+  @apply bg-[#0A0A0A]/90 backdrop-blur-2xl saturate-150 border border-white/10 ring-1 ring-black/50 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5),0_0_20px_rgba(0,0,0,0.2)];
 }

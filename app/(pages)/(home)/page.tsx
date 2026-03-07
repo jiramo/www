@@ -1,4 +1,3 @@
-import { AnnouncementBadge } from "@/app/components/badge";
 import Button from "@/app/components/button";
 import Image from "next/image";
 import CardsGrid from "./cardsGrid";
@@ -36,9 +35,6 @@ export default function Home() {
             >
               Clone Repo
             </Button>
-            <Button size="lg" variant="secondary" href="">
-              View Demo
-            </Button>
           </div>
         </section>
 
@@ -67,9 +63,11 @@ export default function Home() {
             <div className="relative aspect-16/10 bg-neutral-50 dark:bg-[#0A0A0A]">
               <Image
                 src="/ui.png"
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: '100%', height: 'auto' }}
                 alt="Dashboard UI"
-                fill
-                className="object-cover opacity-95 dark:opacity-90"
               />
 
               <div
