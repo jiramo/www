@@ -1,7 +1,7 @@
-import { IconProps } from "@/app/types/icon";
+import { IconProps } from "@/types/icon";
 import { forwardRef } from "react";
 
-export const Code = forwardRef<SVGSVGElement, IconProps>(
+export const Shield = forwardRef<SVGSVGElement, IconProps>(
   ({ size = 24, ...props }, ref) => (
     <svg
       ref={ref}
@@ -15,10 +15,9 @@ export const Code = forwardRef<SVGSVGElement, IconProps>(
       strokeLinejoin="round"
       {...props}
     >
-      <polyline points="16 18 22 12 16 6" />
-      <polyline points="8 6 2 12 8 18" />
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </svg>
   )
 );
 
-Code.displayName = "Code";
+Shield.displayName = "Shield";

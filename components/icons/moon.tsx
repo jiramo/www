@@ -1,7 +1,7 @@
-import { IconProps } from "@/app/types/icon";
+import { IconProps } from "@/types/icon";
 import { forwardRef } from "react";
 
-export const Monitor = forwardRef<SVGSVGElement, IconProps>(
+export const Moon = forwardRef<SVGSVGElement, IconProps>(
   ({ size = 16, ...props }, ref) => (
     <svg
       ref={ref}
@@ -16,11 +16,9 @@ export const Monitor = forwardRef<SVGSVGElement, IconProps>(
       strokeLinejoin="round"
       {...props}
     >
-      <rect width="20" height="14" x="2" y="3" rx="2" />
-      <line x1="8" x2="16" y1="21" y2="21" />
-      <line x1="12" x2="12" y1="17" y2="21" />
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
     </svg>
   )
 );
 
-Monitor.displayName = "Monitor";
+Moon.displayName = "Moon";

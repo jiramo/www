@@ -1,10 +1,10 @@
-import Card from "@/app/components/card";
-import { Bug } from "@/app/components/icons/bug";
-import { Calendar } from "@/app/components/icons/calendar";
-import { Code } from "@/app/components/icons/code";
-import { Github } from "@/app/components/icons/github";
-import { Shield } from "@/app/components/icons/shield";
-import { Users } from "@/app/components/icons/user";
+import Card from "@/components/card";
+import { Bug } from "@/components/icons/bug";
+import { Calendar } from "@/components/icons/calendar";
+import { Code } from "@/components/icons/code";
+import { Github } from "@/components/icons/github";
+import { Shield } from "@/components/icons/shield";
+import { Users } from "@/components/icons/user";
 
 export default function CardsGrid() {
   return (

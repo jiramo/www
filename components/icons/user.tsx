@@ -1,8 +1,8 @@
-import { IconProps } from "@/app/types/icon";
+import { IconProps } from "@/types/icon";
 import { forwardRef } from "react";
 
-export const Team = forwardRef<SVGSVGElement, IconProps>(
-  ({ size = 16, ...props }, ref) => (
+export const Users = forwardRef<SVGSVGElement, IconProps>(
+  ({ size = 24, ...props }, ref) => (
     <svg
       ref={ref}
       width={size}
@@ -10,7 +10,7 @@ export const Team = forwardRef<SVGSVGElement, IconProps>(
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
@@ -23,4 +23,4 @@ export const Team = forwardRef<SVGSVGElement, IconProps>(
   )
 );
 
-Team.displayName = "Team";
+Users.displayName = "Users";

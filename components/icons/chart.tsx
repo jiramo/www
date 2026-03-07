@@ -1,8 +1,8 @@
-import { IconProps } from "@/app/types/icon";
+import { IconProps } from "@/types/icon";
 import { forwardRef } from "react";
 
-export const Shield = forwardRef<SVGSVGElement, IconProps>(
-  ({ size = 24, ...props }, ref) => (
+export const Chart = forwardRef<SVGSVGElement, IconProps>(
+  ({ size = 16, ...props }, ref) => (
     <svg
       ref={ref}
       width={size}
@@ -10,14 +10,15 @@ export const Shield = forwardRef<SVGSVGElement, IconProps>(
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
     >
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="M3 3v18h18" />
+      <path d="m19 9-5 5-4-4-3 3" />
     </svg>
   )
 );
 
-Shield.displayName = "Shield";
+Chart.displayName = "Chart";

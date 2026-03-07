@@ -1,7 +1,7 @@
-import { IconProps } from "@/app/types/icon";
+import { IconProps } from "@/types/icon";
 import { forwardRef } from "react";
 
-export const Arrow = forwardRef<SVGSVGElement, IconProps>(
+export const Plug = forwardRef<SVGSVGElement, IconProps>(
   ({ size = 16, ...props }, ref) => (
     <svg
       ref={ref}
@@ -15,9 +15,12 @@ export const Arrow = forwardRef<SVGSVGElement, IconProps>(
       strokeLinejoin="round"
       {...props}
     >
-      <path d="m9 18 6-6-6-6" />
+      <path d="M12 22v-5" />
+      <path d="M9 8V2" />
+      <path d="M15 8V2" />
+      <path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z" />
     </svg>
-  ),
+  )
 );
 
-Arrow.displayName = "Arrow";
+Plug.displayName = "Plug";

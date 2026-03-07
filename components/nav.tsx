@@ -14,6 +14,7 @@ const NAV_CONFIG = [
     href: "/product",
   },
   { label: "Download", href: "/download" },
+  { label: "Blog", href: "/blog" },
   {
     label: "About",
     href: "/about",

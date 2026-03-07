@@ -1,6 +1,6 @@
 "use client";
 
-import { Download } from "@/app/components/icons/download";
+import { Download } from "@/components/icons/download";
 import Image from "next/image";
 import { useState } from "react";
 

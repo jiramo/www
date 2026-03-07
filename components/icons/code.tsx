@@ -1,7 +1,7 @@
-import { IconProps } from "@/app/types/icon";
+import { IconProps } from "@/types/icon";
 import { forwardRef } from "react";
 
-export const Github = forwardRef<SVGSVGElement, IconProps>(
+export const Code = forwardRef<SVGSVGElement, IconProps>(
   ({ size = 24, ...props }, ref) => (
     <svg
       ref={ref}
@@ -15,12 +15,10 @@ export const Github = forwardRef<SVGSVGElement, IconProps>(
       strokeLinejoin="round"
       {...props}
     >
-      <line x1="6" x2="6" y1="3" y2="15"></line>
-      <circle cx="18" cy="6" r="3"></circle>
-      <circle cx="6" cy="18" r="3"></circle>
-      <path d="M18 9a9 9 0 0 1-9 9"></path>
+      <polyline points="16 18 22 12 16 6" />
+      <polyline points="8 6 2 12 8 18" />
     </svg>
-  ),
+  )
 );
 
-Github.displayName = "Github";
+Code.displayName = "Code";

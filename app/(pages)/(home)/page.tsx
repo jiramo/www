@@ -1,8 +1,8 @@
-import Button from "@/app/components/button";
+import Button from "@/components/button";
 import Image from "next/image";
 import CardsGrid from "./cardsGrid";
-import Background from "@/app/components/background";
-import { Github } from "@/app/components/icons/github";
+import Background from "@/components/background";
+import { Github } from "@/components/icons/github";
 
 export default function Home() {
   return (

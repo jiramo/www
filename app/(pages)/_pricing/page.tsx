@@ -1,8 +1,8 @@
 "use client";
 
-import Background from "@/app/components/background";
-import { Check } from "@/app/components/icons/check";
-import { Minus } from "@/app/components/icons/minus";
+import Background from "@/components/background";
+import { Check } from "@/components/icons/check";
+import { Minus } from "@/components/icons/minus";
 import Link from "next/link";
 import { useState } from "react";
 

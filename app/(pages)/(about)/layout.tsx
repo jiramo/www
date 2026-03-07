@@ -1,6 +1,6 @@
 "use client";
 
-import Background from "@/app/components/background";
+import Background from "@/components/background";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

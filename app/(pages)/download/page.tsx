@@ -1,11 +1,11 @@
 "use client";
 
-import Background from "@/app/components/background";
-import { Icon } from "@/app/components/Icon";
-import { Book } from "@/app/components/icons/book";
-import { Check } from "@/app/components/icons/check";
-import { Copy } from "@/app/components/icons/copy";
-import { Download } from "@/app/components/icons/download";
+import Background from "@/components/background";
+import { Icon } from "@/components/Icon";
+import { Book } from "@/components/icons/book";
+import { Check } from "@/components/icons/check";
+import { Copy } from "@/components/icons/copy";
+import { Download } from "@/components/icons/download";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
