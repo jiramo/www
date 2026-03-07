@@ -5,43 +5,15 @@ import Link from "next/link";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Button from "./button";
-import { Plug } from "./icons/plug";
-import { Chart } from "./icons/chart";
-import { Rocket } from "./icons/rocket";
-import { Building } from "./icons/building";
-import { Team } from "./icons/team";
-import { Brand } from "./icons/brand";
 import { Icon } from "./Icon";
+import NavSearch from "./navSearch";
 
 const NAV_CONFIG = [
   {
     label: "Product",
     href: "/product",
-    menuWidth: "520px",
-    subMenu: [
-      {
-        title: "Integrations",
-        desc: "Connect tools",
-        icon: "plug",
-        href: "/integrations",
-      },
-      {
-        title: "Analytics",
-        desc: "Data insights",
-        icon: "chart",
-        href: "/analytics",
-      },
-      {
-        title: "Security",
-        desc: "Firewall protection",
-        icon: "shield",
-        href: "/security",
-      },
-      { title: "API SDK", desc: "Developer tools", icon: "code", href: "/api" },
-    ],
   },
   { label: "Download", href: "/download" },
-  { label: "Pricing", href: "/pricing" },
   {
     label: "About",
     href: "/about",
@@ -124,12 +96,6 @@ export default function Navbar() {
     timeoutRef.current = setTimeout(() => setActiveMenu(null), 150);
   };
 
-  const glassPanelClass = `
-    bg-[#0A0A0A]/90 backdrop-blur-2xl saturate-150
-    border border-white/10 ring-1 ring-black/50
-    shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5),0_0_20px_rgba(0,0,0,0.2)]
-  `;
-
   const currentWidth = isSearchOpen
     ? "56px"
     : isMenuOpen
@@ -151,7 +117,7 @@ export default function Navbar() {
         className={`
           relative flex flex-col-reverse overflow-hidden
           transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] origin-bottom will-change-[width,height] rounded-2xl
-          ${glassPanelClass}
+          glass
         `}
       >
         <div className="relative z-20 flex items-center h-14 w-full shrink-0 pr-2">
@@ -269,82 +235,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <div
-        onClick={() => !isSearchOpen && setIsSearchOpen(true)}
-        style={{ width: isSearchOpen ? "320px" : "56px" }}
-        className={`
-            relative flex items-center shrink-0
-            h-14 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] rounded-2xl
-            ${glassPanelClass}
-            ${isSearchOpen ? "cursor-text pl-2 pr-2" : "hover:bg-white/5 cursor-pointer justify-center"}
-        `}
-      >
-        <div
-          className={`
-             flex items-center justify-center shrink-0 text-neutral-400 transition-colors
-             ${isSearchOpen ? "w-10 h-10 text-white" : "w-full h-full hover:text-white"}
-          `}
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.3-4.3" />
-          </svg>
-        </div>
-
-        <div
-          className={`
-             flex flex-1 items-center overflow-hidden transition-all duration-500 ease-out
-             ${isSearchOpen ? "opacity-100 w-full ml-1" : "opacity-0 w-0 ml-0"}
-          `}
-        >
-          <input
-            ref={searchInputRef}
-            type="text"
-            placeholder="Search..."
-            className="w-full bg-transparent text-[14px] text-white placeholder-neutral-500 focus:outline-none font-medium h-full pb-px"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-
-        <div
-          className={`
-             flex items-center gap-2 shrink-0 overflow-hidden transition-all duration-300
-             ${isSearchOpen ? "w-auto opacity-100 mr-1" : "w-0 opacity-0"}
-          `}
-        >
-          <span className="hidden sm:inline-flex items-center border border-white/10 rounded px-1.5 py-0.5 text-[10px] text-neutral-500 font-mono bg-white/5">
-            ESC
-          </span>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsSearchOpen(false);
-            }}
-            className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-white/10 text-neutral-400 hover:text-white transition-colors"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
+      <NavSearch  isOpen={isSearchOpen} setIsOpen={setIsSearchOpen} />
     </div>
   );
 }
