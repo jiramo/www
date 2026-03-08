@@ -14,15 +14,13 @@ interface FooterData {
 }
 
 const footerLinks: FooterData = {
-  Resources: [
-    { label: "News", href: "/news" },
-    { label: "Docs", href: "/docs" },
-    { label: "Contact Sales", href: "/contact" },
-    { label: "Open Source", href: "/open-source" },
+  Menu: [
+    { label: "Download", href: "/download" },
+    { label: "Blog", href: "/blog" },
+    { label: "About", href: "/about" },
   ],
   Legal: [
     { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
   ],
 };
 
