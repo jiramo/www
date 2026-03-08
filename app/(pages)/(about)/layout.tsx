@@ -17,11 +17,6 @@ export default function AboutLayout({
 }) {
   return (
     <div className="min-h-screen w-full font-sans text-neutral-900 dark:text-neutral-200 selection:bg-orange-500/20 selection:text-orange-600 dark:selection:text-orange-500 overflow-x-hidden transition-colors duration-300">
-      <Background />
-
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none transition-colors duration-300"></div>
-      
-      <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-62.5 h-37.5 bg-orange-500/20 dark:bg-orange-600/10 rounded-full blur-[120px] pointer-events-none opacity-60 dark:opacity-50 transition-colors duration-300"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-24 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">

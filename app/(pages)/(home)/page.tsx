@@ -7,8 +7,6 @@ import { Github } from "@/components/icons/github";
 export default function Home() {
   return (
     <>
-      <Background />
-
       <main className="flex flex-col items-center justify-center pt-24 pb-10 gap-24">
         <section className="text-center max-w-5xl flex flex-col items-center gap-8 px-6 relative">
           <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[1.1] text-neutral-900 dark:text-white">
