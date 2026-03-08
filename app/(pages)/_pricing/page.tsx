@@ -92,8 +92,6 @@ export default function PricingPage() {
 
   return (
     <section className="">
-      <Background />
-
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-250 h-150 bg-white/5 rounded-[100%] blur-[120px] pointer-events-none opacity-20"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-24">

@@ -9,10 +9,6 @@ import { Icon } from "./Icon";
 import NavSearch from "./navSearch";
 
 const NAV_CONFIG = [
-  {
-    label: "Product",
-    href: "/product",
-  },
   { label: "Download", href: "/download" },
   { label: "Blog", href: "/blog" },
   {
