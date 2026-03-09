@@ -23,5 +23,11 @@ body {
 }
 
 .glass {
-  @apply bg-[#0A0A0A]/90 backdrop-blur-2xl saturate-150 border border-white/10 ring-1 ring-black/50 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5),0_0_20px_rgba(0,0,0,0.2)];
+  @apply backdrop-blur-2xl saturate-150 ring-1 transition-all duration-300;
+  
+  /* Light Mode */
+  @apply bg-white/70 border-black/5 ring-black/5 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)];
+
+  /* Dark Mode */
+  @apply dark:bg-[#0A0A0A]/90 dark:border-white/10 dark:ring-black/50 dark:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5),0_0_20px_rgba(0,0,0,0.2)];
 }

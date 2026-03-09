@@ -11,7 +11,7 @@ export default function DownloadPage() {
     <div className="relative min-h-screen w-full font-sans selection:bg-orange-500/30 text-neutral-900 dark:text-neutral-200 overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-24 md:py-32">
         <div className="text-center max-w-3xl mx-auto mb-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-neutral-950 dark:text-white tracking-tight mb-6">
             Install Jiramo everywhere.
           </h1>
           <p className="text-lg text-neutral-400 leading-relaxed max-w-xl mx-auto">
