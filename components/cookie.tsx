@@ -59,30 +59,23 @@ export default function CookieBanner() {
           </div>
 
           <div className="flex flex-col-reverse sm:flex-row gap-2 sm:justify-end mt-1">
-            <div
-              onClick={() => setIsVisible(false)}
-              className="w-full sm:w-auto"
+            <Button
+              onClick={() => setConsent("declined")}
+              variant="outline"
+              size="sm"
+              className="w-full sm:w-auto justify-center text-xs h-9 border-neutral-200 dark:border-white/10 text-neutral-700 dark:text-neutral-300"
             >
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full sm:w-auto justify-center text-xs h-9 border-neutral-200 dark:border-white/10 text-neutral-700 dark:text-neutral-300"
-              >
-                Decline
-              </Button>
-            </div>
-            <div
-              onClick={() => setIsVisible(false)}
-              className="w-full sm:w-auto"
+              Decline
+            </Button>
+
+            <Button
+              onClick={() => setConsent("accepted")}
+              variant="secondary"
+              size="md"
+              className="w-full sm:w-auto justify-center text-xs h-9 bg-neutral-900 dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200"
             >
-              <Button
-                variant="secondary"
-                size="md"
-                className="w-full sm:w-auto justify-center text-xs h-9 bg-neutral-900 dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200"
-              >
-                Accept All
-              </Button>
-            </div>
+              Accept All
+            </Button>
           </div>
         </div>
       </div>
