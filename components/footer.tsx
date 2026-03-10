@@ -14,9 +14,13 @@ interface FooterData {
 }
 
 const footerLinks: FooterData = {
+  Menu: [
+    { label: "Download", href: "/download" },
+    { label: "Blog", href: "/blog" },
+    { label: "About", href: "/about" },
+  ],
   Legal: [
     { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
   ],
 };
 
@@ -46,7 +50,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-x-12 gap-y-8">
+          <div className="grid grid-cols-2 gap-x-12 gap-y-8">
             {Object.entries(footerLinks).map(([section, items]) => (
               <div key={section} className="flex flex-col gap-4">
                 <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-200">
@@ -71,6 +75,10 @@ export default function Footer() {
             <Link href="https://github.com/jiramo">
               GitHub
             </Link>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <ThemeSelector />
           </div>
         </div>
       </div>

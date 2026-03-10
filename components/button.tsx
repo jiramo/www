@@ -80,11 +80,11 @@ export default function Button({
 
   const baseVariantClasses: Record<ButtonVariant, string> = {
     primary:
-      "bg-orange-500 text-black border border-orange-500 hover:bg-black hover:text-white hover:border-white/20",
+      "bg-orange-600 dark:bg-orange-500 text-white dark:text-black border border-orange-600 dark:border-orange-500 hover:bg-neutral-900 dark:hover:bg-black hover:text-white dark:hover:text-white hover:border-neutral-900 dark:hover:border-white/20",
     secondary:
-      "bg-white text-black border border-white hover:bg-black hover:text-white hover:border-white",
+      "bg-neutral-100 dark:bg-white text-neutral-900 dark:text-black border border-neutral-200 dark:border-white hover:bg-neutral-900 dark:hover:bg-black hover:text-white dark:hover:text-white hover:border-neutral-900 dark:hover:border-white",
     outline:
-      "bg-[#1f1d1c] text-white border border-[#1f1d1c] hover:bg-white hover:text-black hover:border-black",
+      "bg-white dark:bg-[#1f1d1c] text-neutral-900 dark:text-white border border-neutral-200 dark:border-[#1f1d1c] hover:bg-neutral-100 dark:hover:bg-white hover:text-neutral-900 dark:hover:text-black hover:border-neutral-300 dark:hover:border-black",
   };
 
   const sizeClasses: Record<ButtonSize, string> = {
@@ -148,7 +148,7 @@ export default function Button({
         )}
 
         {shortcut && !loading && (
-          <kbd className="ml-2 rounded bg-black/10 px-1.5 py-0.5 text-xs font-mono opacity-70">
+          <kbd className="ml-2 rounded bg-black/10 dark:bg-white/20 px-1.5 py-0.5 text-xs font-mono opacity-80 dark:opacity-70">
             {shortcut}
           </kbd>
         )}
@@ -171,7 +171,7 @@ export default function Button({
   );
 
   const sharedClassName = clsx(
-    "group relative shadow-[inset_0_-3px_0_0_rgba(0,0,0,0.2)] overflow-hidden cursor-pointer rounded-md transition-colors duration-300 inline-flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-50",
+    "group relative shadow-[inset_0_-3px_0_0_rgba(0,0,0,0.1)] dark:shadow-[inset_0_-3px_0_0_rgba(0,0,0,0.2)] overflow-hidden cursor-pointer rounded-md transition-colors duration-300 inline-flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-50",
     baseVariantClasses[variant],
     sizeClasses[size],
     className,

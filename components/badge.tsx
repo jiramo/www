@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { clsx, type ClassValue } from "clsx";
+import { Arrow } from "./icons/arrow";
 
 function cn(...inputs: ClassValue[]) {
   return clsx(inputs);
@@ -163,18 +164,7 @@ export function AnnouncementBadge({
       </span>
 
       {showArrow && (
-        <svg
-          className="ml-1 w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-300"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="m9 18 6-6-6-6" />
-        </svg>
+        <Arrow className="ml-1 w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-300" />
       )}
     </Component>
   );
