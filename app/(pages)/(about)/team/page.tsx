@@ -21,6 +21,12 @@ export default function TeamPage() {
       img: "/team/conan.jpeg",
       href: "https://github.com/gkkconan",
     },
+    {
+      name: "Alessandro Cuviello",
+      role: "Backend",
+      img: "/team/alessandro.png",
+      href: "https://github.com/Kawi16",
+    },
   ];
 
   return (
