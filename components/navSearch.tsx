@@ -173,7 +173,7 @@ export default function NavSearch({
               </Link>
             );
           })
-        ) : localQuery ? (
+        ) : !isSearching && localQuery ? (
           <div className="p-3 text-sm text-neutral-500 dark:text-neutral-400 text-center">
             Nessun risultato trovato.
           </div>
