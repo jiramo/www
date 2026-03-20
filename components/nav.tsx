@@ -118,7 +118,7 @@ export default function Navbar() {
         className={`
           relative flex flex-col-reverse overflow-hidden
           transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] origin-bottom will-change-[width,height] rounded-2xl
-          glass
+          glass border border-black/10 dark:border-white/10
           ${isMobileMenuOpen ? "max-sm:w-70!" : "max-sm:w-14!"}
         `}
       >
